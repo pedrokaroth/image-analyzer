@@ -1,0 +1,25 @@
+org: pedrokaroth
+app: image-analyzer
+service: image-analyzer
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - rekognition:DetectLabels
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - translate:TranslateText
+      Resource: "*"
+
+functions:
+  analyze:
+    handler: handler.main
+    events:
+      - http:
+          path: analyze
+          method: get
